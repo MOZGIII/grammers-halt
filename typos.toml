@@ -1,2 +1,3 @@
 # https://github.com/crate-ci/typos#false-positives
-[default.extend-identifiers]
+[default.extend-words]
+grammers = "grammers"
