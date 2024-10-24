@@ -5,7 +5,6 @@ use grammers_client::grammers_tl_types as tl;
 #[derive(Debug)]
 pub struct Reconciler {
     pub client: grammers_client::Client,
-    pub chat: grammers_client::types::PackedChat,
 }
 
 impl Reconciler {
@@ -39,7 +38,16 @@ impl Reconciler {
     }
 
     async fn reconcile(&self) -> Result<(), crate::Error> {
-        let mut iter = self.client.iter_participants(self.chat);
+        let mut iter = self
+            .client
+            .iter_participants(grammers_client::types::PackedChat {
+                ty: grammers_client::session::PackedType::Megagroup,
+                // The data here is irrelevant - in fact the stall happens before they begin
+                // to matter.
+                // So we use some known-bogus data here to simplify the setup for testers.
+                id: 1234,
+                access_hash: Some(5678),
+            });
 
         tracing::info!(message = "before iter next", note = "<----- hangs here");
 

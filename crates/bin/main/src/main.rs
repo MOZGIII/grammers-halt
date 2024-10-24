@@ -14,9 +14,6 @@ async fn main() -> Result<(), Error> {
     let api_hash = envfury::must("TG_API_HASH")?;
     let bot_token: String = envfury::must("TG_BOT_TOKEN")?;
 
-    let tg_channel_id = envfury::must("TG_CHANNEL_ID")?;
-    let tg_channel_access_hash = envfury::must("TG_CHANNEL_ACCESS_HASH")?;
-
     // ---
 
     let params = grammers_client::InitParams {
@@ -52,11 +49,6 @@ async fn main() -> Result<(), Error> {
 
     let reconciler = reconciler::Reconciler {
         client: client.clone(),
-        chat: grammers_client::types::PackedChat {
-            ty: grammers_client::session::PackedType::Megagroup,
-            id: tg_channel_id,
-            access_hash: Some(tg_channel_access_hash),
-        },
     };
 
     let mut tasks = tokio::task::JoinSet::new();
