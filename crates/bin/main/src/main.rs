@@ -16,10 +16,6 @@ async fn main() -> Result<(), Error> {
 
     // ---
 
-    let params = grammers_client::InitParams {
-        ..Default::default()
-    };
-
     let session_file_path = "session.bin";
 
     let session = grammers_client::session::Session::load_file_or_create(session_file_path)?;
@@ -28,7 +24,7 @@ async fn main() -> Result<(), Error> {
         session,
         api_id,
         api_hash,
-        params,
+        params: Default::default(),
     };
 
     let client = grammers_client::Client::connect(client_config).await?;
